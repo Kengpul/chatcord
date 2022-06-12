@@ -12,3 +12,17 @@ body {
 .card {
     background-color: #36393f;
 }
+
+.chat-text {
+    background-color: #36393f;
+}
+.chat-wrapper {
+    height: 80vh;
+    overflow-y: scroll;
+}
+
+.form-control, .form-control:focus{
+    background-color: #4f545c;
+    color: white;
+    border: none;
+}
