@@ -3,12 +3,18 @@ const form = document.querySelector('.messageForm');
 const input = document.querySelector('.messageInput');
 const wrapper = document.querySelector('.chat-wrapper');
 
+const room = window.location.href.slice(window.location.href.lastIndexOf('/')).slice(1);
+
+window.addEventListener('load', () => {
+    socket.emit('joinChat', room);
+})
+
 form.addEventListener('submit', function (e) {
     e.preventDefault();
     let message = input.value;
-    socket.emit('message', message);
+    const room = input.name;
+    socket.emit('message', message, room);
     input.value = '';
-    wrapper.scrollTop = wrapper.scrollHeight;
 })
 
 socket.on('displayMessage', message => {
@@ -20,4 +26,5 @@ const displayMessage = (message) => {
     div.classList.add('mb-3');
     div.innerText = message;
     wrapper.append(div);
+    wrapper.scrollTop = wrapper.scrollHeight;
 }

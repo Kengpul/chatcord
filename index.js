@@ -16,13 +16,19 @@ app.get('/', (req, res) => {
     res.render('index');
 })
 
-app.get('/:name', (req, res) => {
-    res.render('chat/index');
+app.get('/favicon.ico', (req, res) => res.status(204));
+
+app.get('/:room', (req, res) => {
+    const { room } = req.params;
+    res.render('chat/index', { room });
 })
 
 io.on('connection', socket => {
-    socket.on('message', message => {
-        io.emit('displayMessage', message);
+    socket.on('joinChat', room => {
+        socket.join(room);
+    })
+    socket.on('message', (message, room) => {
+        io.to(room).emit('displayMessage', message);
     })
 })
 
