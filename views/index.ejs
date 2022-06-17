@@ -20,19 +20,56 @@
     </header>
 
     <div class="container mt-5">
-        <h3 class="mb-4">Explore communities</h3>
-        <div class="row">
-            <div class="col-sm-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
+            <h3>Explore communities</h3>
+            <button class="btn btn-success" type="button" data-bs-toggle="modal"
+                data-bs-target="#createGroupModal">Create Community</button>
+        </div>
+        <div class="modal fade" id="createGroupModal" tabindex="-1" aria-labelledby="createGroupModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createGroupModalLabel">Create group</h5>
+                        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <form action="" class="createGroupForm">
+                        <div class="modal-body">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="name" name="name"
+                                    placeholder="Name of the group" required autofocus>
+                                <label for="name">Name of the group</label>
+                            </div>
+
+                            <div class="form-floating">
+                                <textarea name="description" class="form-control" id="description"
+                                    placeholder="Description of the group" required></textarea>
+                                <label for="description">Description of the group</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary">Create</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 group-container">
+            <div class="col">
                 <div class="card mb-4">
                     <div class="card-body">
                         <h5 class="card-title">THS1</h5>
-                        <p class="card-text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis animi
+                        <p class="card-text">Lorem ipsum dolor sit, amet consectetur adipisicing
+                            elit.
+                            Reiciendis
+                            animiorem ipsum dolor sit
                         </p>
                         <a href="/ths1" class="btn btn-primary w-100">Join</a>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col">
                 <div class="card mb-4">
                     <div class="card-body">
                         <h5 class="card-title">CS3</h5>
@@ -46,6 +83,8 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/createGroup.js"></script>
 </body>
 
 </html>

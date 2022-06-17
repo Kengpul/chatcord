@@ -9,8 +9,12 @@ body {
     color: white;
 }
 
-.card {
+.card, .modal-content {
     background-color: #36393f;
+}
+.card-text {
+    height: 70px;
+    overflow-y: scroll;
 }
 
 .chat-text {

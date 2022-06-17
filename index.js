@@ -25,10 +25,16 @@ app.get('/:room', (req, res) => {
 
 io.on('connection', socket => {
     socket.on('joinChat', room => {
+        // TODO: add room to joined room in users array
         socket.join(room);
     })
     socket.on('message', (message, room) => {
+        // TODO: add message to instance
         io.to(room).emit('displayMessage', message);
+    })
+    socket.on('createGroup', (groupName, description) => {
+        // TODO: save new group to db
+        io.emit('newGroup', groupName, description)
     })
 })
 
