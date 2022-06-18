@@ -12,8 +12,6 @@ createGroupForm.addEventListener('submit', function (e) {
     e.target.elements.name.value = '';
     e.target.elements.description.value = '';
     modal.hide();
-    // TODO: fix scroll to the bottom after creating a new group
-    window.scrollTo(0, document.body.scrollHeight);
 })
 
 socket.on('newGroup', (name, description) => {

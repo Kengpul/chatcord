@@ -56,29 +56,21 @@
             </div>
         </div>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 group-container">
-            <div class="col">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">THS1</h5>
-                        <p class="card-text">Lorem ipsum dolor sit, amet consectetur adipisicing
-                            elit.
-                            Reiciendis
-                            animiorem ipsum dolor sit
-                        </p>
-                        <a href="/ths1" class="btn btn-primary w-100">Join</a>
+            <% for (let community of communities) { %>
+                <div class="col">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= community.name %>
+                            </h5>
+                            <p class="card-text">
+                                <%= community.description %>
+                            </p>
+                            <a href="/<%= community.name %>" class="btn btn-primary w-100">Join</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">CS3</h5>
-                        <p class="card-text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis animi
-                        </p>
-                        <a href="/cs3" class="btn btn-primary w-100">Join</a>
-                    </div>
-                </div>
-            </div>
+                <% } %>
         </div>
     </div>
 

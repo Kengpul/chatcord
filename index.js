@@ -5,6 +5,16 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(server);
+const mongoose = require('mongoose');
+
+const Community = require('./model/community');
+
+mongoose.connect('mongodb://localhost:27017/chatcord');
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', () => {
+    console.log('Database connected');
+});
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -12,15 +22,17 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-    res.render('index');
-})
-
 app.get('/favicon.ico', (req, res) => res.status(204));
 
-app.get('/:room', (req, res) => {
+app.get('/', async (req, res) => {
+    const communities = await Community.find({});
+    res.render('index', { communities });
+})
+
+app.get('/:room', async (req, res) => {
     const { room } = req.params;
-    res.render('chat/index', { room });
+    const community = await Community.findOne({ name: room });
+    res.render('chat/index', { room, community });
 })
 
 io.on('connection', socket => {
@@ -28,13 +40,16 @@ io.on('connection', socket => {
         // TODO: add room to joined room in users array
         socket.join(room);
     })
-    socket.on('message', (message, room) => {
-        // TODO: add message to instance
+    socket.on('message', async (message, room) => {
         io.to(room).emit('displayMessage', message);
+        const community = await Community.findOne({ name: room });
+        community.messages.push(message);
+        community.save();
     })
-    socket.on('createGroup', (groupName, description) => {
-        // TODO: save new group to db
-        io.emit('newGroup', groupName, description)
+    socket.on('createGroup', (name, description) => {
+        const community = new Community({ name, description });
+        community.save();
+        io.emit('newGroup', name, description)
     })
 })
 

@@ -27,7 +27,11 @@
                     </h5>
                 </div>
                 <div class="chat-wrapper px-3">
-
+                    <% for (let message of community.messages) { %>
+                        <div class="mb-3">
+                            <%= message %>
+                        </div>
+                        <% } %>
                 </div>
                 <form action="" class="d-flex mt-3 messageForm">
                     <input type="text" class="form-control mx-3 shadow messageInput" name="<%= room %>"
