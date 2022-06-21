@@ -10,6 +10,7 @@ const server = http.createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(server);
 const mongoose = require('mongoose');
+const ExpressError = require('./utils/ExpressError');
 
 const Community = require('./model/community');
 
@@ -38,6 +39,16 @@ app.get('/:room', async (req, res) => {
     const { room } = req.params;
     const community = await Community.findOne({ name: room });
     res.render('chat/index', { room, community });
+})
+
+app.all('*', (req, res, next) => {
+    next(new ExpressError('Page not found', 404))
+})
+
+app.use((err, req, res, next) => {
+    const { statusCode = 500 } = err;
+    if (!err.message) err.message = 'Something went wrong!';
+    res.status(statusCode).render('error', { err });
 })
 
 io.on('connection', socket => {

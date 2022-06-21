@@ -4,19 +4,37 @@ const groupContainer = document.querySelector('.group-container');
 const createGroup = document.querySelector('#createGroupModal');
 const modal = new bootstrap.Modal(createGroup);
 
-createGroupForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const name = e.target.elements.name.value;
-    const description = e.target.elements.description.value;
-    socket.emit('createGroup', name, description);
-    e.target.elements.name.value = '';
-    e.target.elements.description.value = '';
-    modal.hide();
-})
+(() => {
+    'use strict'
+
+    const forms = document.querySelectorAll('.validation')
+
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+            event.preventDefault();
+            const name = event.target.elements.name.value;
+            const description = event.target.elements.description.value;
+            if (name && description) {
+                socket.emit('createGroup', name, description);
+                event.target.elements.name.value = '';
+                event.target.elements.description.value = '';
+                modal.hide()
+            }
+
+        }, false)
+
+    })
+})()
+
 
 socket.on('newGroup', (name, description) => {
     newGroup(name, description)
-
 })
 
 const newGroup = (name, description) => {
