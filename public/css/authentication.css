@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url('https://cdn.wallpapersafari.com/4/61/ypDTNV.jpg');
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+}
+
+a {
+    text-decoration: none;
+}
+
+.card {
+    width: 50%;
+    background-color: #36393f;
+    color: white;
+}
+
+.form-control, .form-control:focus{
+    background-color: #202225;
+    color: white;
+    border: none;
+}
+
+.form-label {
+    font-size: smaller;
+    color: #b9bbbe;
+}
+
+
+@media (max-width: 768px) {
+    .card {
+        width: 100%;
+    }
+}

@@ -14,6 +14,7 @@ const ExpressError = require('./utils/ExpressError');
 const { sockets } = require('./controller/community');
 
 const communityRoutes = require('./routes/community');
+const authenticationRoutes = require('./routes/authentication');
 
 const URL = process.env.MONGO_URI || 'mongodb://localhost:27017/chatcord';
 mongoose.connect(URL);
@@ -32,6 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/favicon.ico', (req, res) => res.status(204));
 
 sockets(io);
+app.use('/', authenticationRoutes);
 app.use('/', communityRoutes);
 
 app.all('*', (req, res, next) => {
