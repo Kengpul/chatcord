@@ -10,6 +10,7 @@ const server = http.createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(server);
 const mongoose = require('mongoose');
+const ejsMate = require('ejs-mate');
 const ExpressError = require('./utils/ExpressError');
 const { sockets } = require('./controller/community');
 
@@ -24,13 +25,12 @@ db.once('open', () => {
     console.log('Database connected');
 });
 
+app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
-
-app.get('/favicon.ico', (req, res) => res.status(204));
 
 sockets(io);
 app.use('/', authenticationRoutes);

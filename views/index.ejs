@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<% layout('layouts/boilerplate') -%>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Chatcord</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/style.css">
-</head>
 
-<body>
     <header class="position-relative">
         <img class="img-fluid" src="https://miro.medium.com/max/1400/1*7P8znG0tW7qmpOpZmSxj7w.png" alt="discord">
         <div class="header-text text-center position-absolute top-50 start-50 translate-middle mt-2 mt-md-0">
@@ -23,7 +14,8 @@
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
             <h3>Explore communities</h3>
             <button class="btn btn-success" type="button" data-bs-toggle="modal"
-                data-bs-target="#createGroupModal">Create Community</button>
+                data-bs-target="#createGroupModal">Create
+                Community</button>
         </div>
         <div class="modal fade" id="createGroupModal" tabindex="-1" aria-labelledby="createGroupModalLabel"
             aria-hidden="true">
@@ -74,9 +66,5 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/createGroup.js"></script>
-</body>
-
-</html>
