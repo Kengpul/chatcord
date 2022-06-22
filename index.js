@@ -11,6 +11,9 @@ const { Server } = require('socket.io');
 const io = new Server(server);
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
+const session = require('express-session');
+const flash = require('connect-flash');
+const MongoDBStore = require('connect-mongo');
 const ExpressError = require('./utils/ExpressError');
 const { sockets } = require('./controller/community');
 
@@ -31,6 +34,29 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
+
+const store = MongoDBStore.create({
+    mongoUrl: URL,
+    secret: 'thisissecretkey', // to be replace
+    touchAfter: 24 * 60 * 60
+})
+
+const sessionConfig = ({
+    name: 'chatCord',
+    store,
+    secret: 'thisisasecretkeysseqw', // to be replace
+    resave: false,
+    saveUninitialized: true,
+    secure: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() * 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+});
+
+app.use(session(sessionConfig));
+app.use(flash());
 
 sockets(io);
 app.use('/', authenticationRoutes);
