@@ -2,7 +2,6 @@ const Community = require('../model/community');
 
 module.exports.index = async (req, res) => {
     const communities = await Community.find({});
-    console.log(req.session)
     res.render('index', { communities });
 }
 

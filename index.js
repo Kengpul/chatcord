@@ -14,8 +14,11 @@ const ejsMate = require('ejs-mate');
 const session = require('express-session');
 const flash = require('connect-flash');
 const MongoDBStore = require('connect-mongo');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
 const ExpressError = require('./utils/ExpressError');
 const { sockets } = require('./controller/community');
+const User = require('./model/user');
 
 const communityRoutes = require('./routes/community');
 const authenticationRoutes = require('./routes/authentication');
@@ -57,6 +60,11 @@ const sessionConfig = ({
 
 app.use(session(sessionConfig));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 sockets(io);
 app.use('/', authenticationRoutes);
