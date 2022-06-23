@@ -13,6 +13,7 @@ module.exports.register = async (req, res) => {
         const { username, email, password } = req.body;
         const user = new User({ username, email });
         await User.register(user, password);
+        req.flash('success', 'Successfully registered, you may now sign in!')
         res.redirect('/');
     } catch (e) {
         console.log('ERROR', e);
@@ -21,6 +22,7 @@ module.exports.register = async (req, res) => {
 }
 
 module.exports.login = (req, res) => {
+    req.flash('success', 'Successfully logged in!');
     res.redirect('/');
 }
 
@@ -28,5 +30,6 @@ module.exports.logout = (req, res, next) => {
     req.logout((err) => {
         if (err) return next(err);
     });
+    req.flash('success', 'Bye')
     res.redirect('/login');
 }
