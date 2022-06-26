@@ -13,10 +13,16 @@ module.exports.register = async (req, res) => {
         const { username, email, password } = req.body;
         const user = new User({ username, email });
         await User.register(user, password);
-        req.flash('success', 'Successfully registered, you may now sign in!')
-        res.redirect('/');
+        req.flash('success', 'Successfully registered, you may now log in!');
+        res.redirect('/login');
     } catch (e) {
-        console.log('ERROR', e);
+        if (e.name === 'UserExistsError') {
+            req.flash('error', e.message);
+        } else if (e.code === 11000) {
+            req.flash('error', 'Email already in use');
+        } else {
+            req.flash('error', 'Something went wrong');
+        }
         res.redirect('/register');
     }
 }

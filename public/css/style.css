@@ -50,3 +50,9 @@ body {
     margin: 0 auto;
     z-index: 1;
 }
+
+.chat-message p {
+    color: #dcddde;
+    margin-top: -10px;
+    margin-left: 3px;
+}

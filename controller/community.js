@@ -1,4 +1,6 @@
 const Community = require('../model/community');
+const Message = require('../model/message');
+const moment = require('moment');
 
 module.exports.index = async (req, res) => {
     const communities = await Community.find({});
@@ -7,7 +9,7 @@ module.exports.index = async (req, res) => {
 
 module.exports.room = async (req, res) => {
     const { room } = req.params;
-    const community = await Community.findOne({ name: room });
+    const community = await Community.findOne({ name: room }).populate('messages');
     res.render('chat/index', { room, community });
 }
 
@@ -17,11 +19,14 @@ module.exports.sockets = (io) => {
             // TODO: add room to joined room in users array
             socket.join(room);
         })
-        socket.on('message', async (message, room) => {
-            io.to(room).emit('displayMessage', message);
+        socket.on('message', async (message, room, username) => {
             const community = await Community.findOne({ name: room });
-            community.messages.push(message);
+            const chatMessage = new Message({ message, author: username });
+            chatMessage.time = moment().format('h:mm a');
+            community.messages.push(chatMessage);
+            chatMessage.save();
             community.save();
+            io.to(room).emit('displayMessage', chatMessage);
         })
         socket.on('createGroup', (name, description) => {
             const community = new Community({ name, description });
@@ -30,4 +35,3 @@ module.exports.sockets = (io) => {
         })
     })
 }
-
