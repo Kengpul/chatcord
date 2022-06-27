@@ -16,71 +16,64 @@
                     </h5>
                 </div>
                 <div class="chat-wrapper px-3">
-                    <% for (let i=0; i <community.messages.length; i++) { %>
-                        <% if(i!==community.messages.length -1) {%>
-                            <% if (community.messages[i].author===community.messages[i +1].author) {%>
-                                <p class="ms-5">
-                                    <%= community.messages[i].message %>
-                                </p>
-                                <% } else { %>
-                                    <div class="my-3 profile">
-                                        <div class="d-flex align-items-center">
-                                            <div class="profile-picture">
-                                                <img src="https://preview.redd.it/dp9hxyn79cz61.png?auto=webp&s=1b953b04d300e94b6efa254f0bf4eefa297242a3"
-                                                    class="img-fluid" width="35" alt="">
-                                            </div>
-                                            <div class="chat-content">
-                                                <div class="chat-info d-flex ms-3">
-                                                    <h6 class="fs-6 me-2">
-                                                        <%= community.messages[i].author %>
-                                                    </h6>
-                                                    <small class="text-white-50">
-                                                        <%= community.messages[i].time %>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="chat-message ms-5">
-                                            <p>
-                                                <%= community.messages[i].message %>
-                                            </p>
-                                        </div>
+                    <% if (community.messages.length) { %>
+                        <div class="my-3 profile">
+                            <div class="d-flex align-items-center">
+                                <div class="profile-picture">
+                                    <img src="https://preview.redd.it/dp9hxyn79cz61.png?auto=webp&s=1b953b04d300e94b6efa254f0bf4eefa297242a3"
+                                        class="img-fluid" width="35" alt="">
+                                </div>
+                                <div class="chat-content">
+                                    <div class="chat-info d-flex ms-3">
+                                        <h6 class="fs-6 me-2">
+                                            <%= community.messages[0].author %>
+                                        </h6>
+                                        <small class="text-white-50">
+                                            <%= community.messages[0].time %>
+                                        </small>
                                     </div>
-                                    <% } %>
+                                </div>
+                            </div>
+                            <div class="chat-message ms-5">
+                                <p>
+                                    <%= community.messages[0].message %>
+                                </p>
+                            </div>
+                        </div>
+                        <% } %>
+                            <% for (let [i, chat] of community.messages.entries()) { %>
+                                <% if (i>=1) { %>
+                                    <% if (chat.author===community.messages[i -1].author) { %>
+                                        <p class="ms-5">
+                                            <%= chat.message %>
+                                        </p>
                                         <% } else { %>
-                                            <% if
-                                                (community.messages[i].author===community.messages[community.messages.length-2].author)
-                                                {%>
-                                                <p class="ms-5">
-                                                    <%= community.messages[i].message %>
-                                                </p>
-                                                <% } else { %>
-                                                    <div class="my-3">
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="profile-picture">
-                                                                <img src="https://preview.redd.it/dp9hxyn79cz61.png?auto=webp&s=1b953b04d300e94b6efa254f0bf4eefa297242a3"
-                                                                    class="img-fluid" width="35" alt="">
-                                                            </div>
-                                                            <div class="chat-content">
-                                                                <div class="chat-info d-flex ms-3">
-                                                                    <h6 class="fs-6 me-2">
-                                                                        <%= community.messages[i].author %>
-                                                                    </h6>
-                                                                    <small class="text-white-50">
-                                                                        <%= community.messages[i].time %>
-                                                                    </small>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="chat-message ms-5">
-                                                            <p>
-                                                                <%= community.messages[i].message %>
-                                                            </p>
+                                            <div class="my-3 profile">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="profile-picture">
+                                                        <img src="https://preview.redd.it/dp9hxyn79cz61.png?auto=webp&s=1b953b04d300e94b6efa254f0bf4eefa297242a3"
+                                                            class="img-fluid" width="35" alt="">
+                                                    </div>
+                                                    <div class="chat-content">
+                                                        <div class="chat-info d-flex ms-3">
+                                                            <h6 class="fs-6 me-2">
+                                                                <%= chat.author %>
+                                                            </h6>
+                                                            <small class="text-white-50">
+                                                                <%= chat.time %>
+                                                            </small>
                                                         </div>
                                                     </div>
+                                                </div>
+                                                <div class="chat-message ms-5">
+                                                    <p>
+                                                        <%= chat.message %>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                                <% } %>
                                                     <% } %>
-                                                        <% } %>
-                                                            <% } %>
                 </div>
                 <form action="" class="d-flex mt-3 messageForm">
                     <input type="text" class="form-control mx-3 shadow messageInput" name="<%= room %>"

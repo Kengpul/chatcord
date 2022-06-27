@@ -19,13 +19,15 @@ form.addEventListener('submit', function (e) {
     input.value = '';
 })
 
-socket.on('displayMessage', async (chat) => {
-    const lastChildAuthor = wrapper.children[wrapper.children.length - 1].outerText.split('\n')[0];
-    if (lastChildAuthor === chat.author) {
-        console.log('text only')
-        displayTextOnly(chat);
+socket.on('displayMessage', (chat) => {
+    if (wrapper.childElementCount >= 1) {
+        const lastChildAuthor = wrapper.children[wrapper.children.length - 1].outerText.split('\n')[0];
+        if (lastChildAuthor === chat.author) {
+            displayTextOnly(chat);
+        } else {
+            displayFullMessage(chat);
+        }
     } else {
-        console.log('full')
         displayFullMessage(chat);
     }
 })
